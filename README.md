@@ -2,9 +2,6 @@
 
 ## Comparative Performance of Classification Methods
 
-**Therance Arizi**  
-Memorial University of Newfoundland
-
 ### Project Overview
 
 This project compares four classification methods for predicting the
