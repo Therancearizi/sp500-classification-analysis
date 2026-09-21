@@ -5,7 +5,7 @@
 ### Project Overview
 
 This project compares four classification methods for predicting the
-weekly direction of the S&P stock market:
+weekly direction of the S&P stock market: 
 
 - Logistic Regression
 - Linear Discriminant Analysis (LDA)
