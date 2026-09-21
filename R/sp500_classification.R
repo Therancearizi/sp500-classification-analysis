@@ -17,7 +17,6 @@ library(ggplot2)
 # ----------------------------------------------------------
 
 data("Weekly")
-
 str(Weekly)
 names(Weekly)
 summary(Weekly)
