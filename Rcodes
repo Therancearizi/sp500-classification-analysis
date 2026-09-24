@@ -1,0 +1,143 @@
+## Load libaries
+library(class)
+library(ISLR)
+library(GGally)
+library(MASS)
+## loading data and summary
+data("Weekly")
+names(Weekly)
+summary(Weekly)
+
+## exploratory data analysis
+table(Weekly$Direction)
+contrasts(Weekly$Direction)
+
+## Correction plot
+ggpairs(Weekly,aes(colour=Direction))
+
+## Create the scatter plot for year and Volume
+ggplot(Weekly, aes(x=Year, y=Volume, color=Direction)) +
+  geom_point() +
+  geom_smooth(method="loess", se=FALSE, color="black", linetype="dashed") +
+  labs(x="Year", y="Volume") +
+  ggtitle("Scatter plot of Year and Volume") +
+  theme_minimal()
+
+## Fit logistic regression, full data
+model<- glm(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume, data = Weekly, family = binomial)
+summary(model)
+
+## confusion matrix and prediction accuracy
+predicted <- ifelse(predict(model, type = "response") > 0.5, "Up", "Down")
+confusion_matrix <- table(predicted, Weekly$Direction)
+print("confusion_matrix")
+confusion_matrix
+accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+accuracy
+  
+## Split the data into training and testing sets
+dt = sort(sample(nrow(Weekly), nrow(Weekly)*.8))
+train<-Weekly[dt,]
+test<-Weekly[-dt,]
+
+#### fit with one predictor Lag2
+## using logistic 
+logistic.model<- glm(Direction ~ Lag2, data = train, family = binomial)
+predicted2 <- ifelse(predict(logistic.model, newdata = test, type = "response") > 0.5, "Up", "Down")
+confusion_matrix2 <- table(predicted2, test$Direction)
+confusion_matrix2
+accuracy2 <- sum(diag(confusion_matrix2)) / sum(confusion_matrix2)
+accuracy2
+
+## using LDA
+lda_model <- lda(Direction ~ Lag2, data = train)
+predicted_lda <- predict(lda_model, newdata = test)$class
+confusion_matrix_lda <- table(predicted_lda, test$Direction)
+confusion_matrix_lda
+accuracy_lda<- sum(diag(confusion_matrix_lda)) / sum(confusion_matrix_lda)
+accuracy_lda
+
+### using QDA
+qda_model <- qda(Direction ~ Lag2, data = train)
+predicted_qda <- predict(qda_model, newdata = test)$class
+confusion_matrix_qda <- table(predicted_qda, test$Direction)
+
+confusion_matrix_qda                             
+accuracy_qda <- sum(diag(confusion_matrix_qda)) / sum(confusion_matrix_qda)
+accuracy_qda
+
+### using KNN
+##  Ensure that 'train' and 'test' data frames only contain the columns used for KNN
+train_knn <- data.frame(Direction = train$Direction, Lag2 = train$Lag2)
+test_knn <- data.frame(Direction = test$Direction, Lag2 = test$Lag2)
+k=1
+k=10
+k=15
+# Use knn function to predict
+predicted_knn <- knn(train = train_knn[, "Lag2", drop = FALSE], test = test_knn[, "Lag2", drop = FALSE], cl = train_knn$Direction, k = k)
+
+# Create confusion matrix
+confusion_matrix_knn <- table(predicted_knn, test_knn$Direction)
+
+# Print confusion matrix
+print("Confusion Matrix for KNN:")
+print(confusion_matrix_knn)
+
+# Calculate accuracy
+accuracy_knn <- sum(diag(confusion_matrix_knn)) / sum(confusion_matrix_knn)
+
+# Print accuracy
+print(paste("Accuracy for KNN: ", accuracy_knn))
+
+###### lag1,lag 2  and Lag1*Lag2 as predictors 
+## using logistic  Regression
+logistic.model1<-glm(Direction~Lag1+Lag2+Lag1:Lag2,data=train,family=binomial)
+predicted3<-ifelse(predict(logistic.model1, newdata = test,type="response")>0.5,"Up","Down")
+confusion_matrix3 <- table(predicted3, test$Direction)
+confusion_matrix3
+accuracy3 <- sum(diag(confusion_matrix3)) / sum(confusion_matrix3)
+accuracy3
+
+## using LDA
+lda_model1<-lda(Direction~Lag1 + Lag2+Lag1:Lag2, data = train)
+predicted_lda1 <- predict(lda_model1, newdata = test)$class
+confusion_matrix_lda1 <- table(predicted_lda1, test$Direction)
+confusion_matrix_lda1
+accuracy_lda1<- sum(diag(confusion_matrix_lda1)) / sum(confusion_matrix_lda1)
+accuracy_lda1
+
+## using QDA
+qda_model1 <- qda(Direction ~Lag1 + Lag2+Lag1:Lag2, data = train)
+predicted_qda1 <- predict(qda_model1, newdata = test)$class
+confusion_matrix_qda1 <- table(predicted_qda1, test$Direction)
+confusion_matrix_qda1                             
+accuracy_qda1<-sum(diag(confusion_matrix_qda1)) / sum(confusion_matrix_qda1)
+accuracy_qda1
+
+# Create the interaction term in the training set
+train$Interaction <- train$Lag1 * train$Lag2
+
+# Prepare the predictors and response variables for training and testing sets
+train_x <- as.matrix(train[,c("Lag1", "Lag2", "Interaction")])
+train_y <- train$Direction
+
+# Create the interaction term in the testing set
+test$Interaction <- test$Lag1 * test$Lag2
+
+test_x <- as.matrix(test[,c("Lag1", "Lag2", "Interaction")])
+test_y <- test$Direction
+k=10
+k=15
+k=1
+# Use the knn function
+predicted_knn1 <- knn(train = train_x, test = test_x, cl = train_y, k = k)
+
+# Create the confusion matrix
+confusion_matrix_knn1 <- table(predicted_knn, test_y)
+
+# Print the confusion matrix
+print(confusion_matrix_knn1)
+
+# Calculate the accuracy
+accuracy_knn1 <- sum(diag(confusion_matrix_knn1)) / sum(confusion_matrix_knn1)
+print(paste("Accuracy: ", accuracy_knn)1)
