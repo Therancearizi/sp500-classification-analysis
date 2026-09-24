@@ -10,46 +10,14 @@ weekly direction of the S&P stock market:
 - Logistic Regression
 - Linear Discriminant Analysis (LDA)
 - Quadratic Discriminant Analysis (QDA)
-- K-Nearest Neighbors (KNN)
+- K-Nearest Neighbors (KNN).
 
-The analysis was conducted in **R** using 1,089 weekly observations
-covering the period from 1990 to 2010.
+
+## Objective
 
 The objective was to determine which classification method provided
 the highest prediction accuracy for classifying weekly market
-direction as **Up** or **Down**.
-
----
-
-## Technologies Used
-
-- R
-- ggplot2
-- GGally
-- ISLR
-- MASS
-- class
-- Logistic Regression
-- LDA
-- QDA
-- KNN
-
----
-
-## Dataset
-
-The Weekly dataset contains:
-
-- `Year` — Year of observation
-- `Lag1`–`Lag5` — Percentage returns from the previous five weeks
-- `Volume` — Trading volume
-- `Today` — Current week's percentage return
-- `Direction` — Market direction (Up or Down)
-
-The dataset contains **1,089 observations** from 1990–2010.
-
----
-
+direction as **Up** or **Down**
 
 
 ## Data Source
@@ -65,49 +33,63 @@ Dataset documentation:
 
 [Weekly Stock Market Data – ISLR Documentation](https://rdrr.io/cran/ISLR/man/Weekly.html)
 
+## Dataset Description
 
+The variables include:
 
+- **Year:** Year of observation
+- **Lag1:** Percentage return from the previous week
+- **Lag2:** Percentage return two weeks previously
+- **Lag3:** Percentage return three weeks previously
+- **Lag4:** Percentage return four weeks previously
+- **Lag5:** Percentage return five weeks previously
+- **Volume:** Average number of shares traded
+- **Today:** Percentage return for the current week
+- **Direction:** Market direction (`Up` or `Down`)
 
+The target variable for classification is **Direction**.
 
 ## Exploratory Data Analysis
 
-### Correlation and Pairwise Analysis
+Exploratory analysis included:
 
-The lagged returns displayed generally weak correlations with one
-another. One of the strongest relationships in the dataset was
-between `Year` and `Volume`, with a correlation of approximately
-**0.842**.
+- Summary statistics
+- Correlation analysis
+- Pairwise visualization
+- Analysis of trading volume over time
+- Examination of lagged weekly returns
 
-### Trading Volume Over Time
+A strong relationship between **Year** and **Volume** was observed, reflecting
+the substantial increase in trading volume over the period.
 
+The lagged returns generally showed relatively weak pairwise correlations.
 
+## Classification Models
 
-Trading volume increased substantially over the period covered by
-the dataset. The LOESS trend highlights the nonlinear growth in
-trading activity, particularly during the later years.
+Four classification techniques were evaluated:
 
----
+1. **Logistic Regression**
+2. **Linear Discriminant Analysis (LDA)**
+3. **Quadratic Discriminant Analysis (QDA)**
+4. **K-Nearest Neighbors (KNN)**
 
-## Logistic Regression
+For the initial logistic regression using all lag variables and Volume,
+**Lag2** was the predictor showing statistically significant evidence at
+the 5% level (p ≈ 0.030).
 
-An initial logistic regression model used:
+## Train/Test Evaluation
 
-`Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume`
+The data were split into approximately:
 
-Among the lag predictors, **Lag2** was statistically significant at
-the 5% level:
+- **80% training data**
+- **20% testing data**
 
-- Coefficient: **0.05844**
-- p-value: **0.0296**
+Models were evaluated using out-of-sample classification accuracy and
+confusion matrices.
 
-This motivated further investigation of Lag2 in the classification
-models.
+Two predictor specifications were investigated:
 
----
-
-## Model Comparison
-
-### Lag2 as Predictor
+### Experiment 1 — Lag2 Only
 
 | Model | Test Accuracy |
 |---|---:|
@@ -116,9 +98,12 @@ models.
 | QDA | 55.04% |
 | KNN (k = 1) | 53.67% |
 | KNN (k = 10) | 55.96% |
-| KNN (k = 15) | **56.68%** |
+| **KNN (k = 15)** | **56.68%** |
 
-### Lag1, Lag2 and Interaction
+With Lag2 as the predictor, **KNN with k = 15** achieved the highest
+reported test accuracy at **56.68%**.
+
+### Experiment 2 — Lag1, Lag2 and Their Interaction
 
 | Model | Test Accuracy |
 |---|---:|
@@ -126,42 +111,50 @@ models.
 | LDA | 54.59% |
 | QDA | 53.67% |
 | KNN (k = 1) | 55.50% |
-| KNN (k = 10) | **56.88%** |
+| **KNN (k = 10)** | **56.88%** |
 | KNN (k = 15) | 51.83% |
 
----
+Under this specification, **KNN with k = 10** produced the highest reported
+test accuracy at **56.88%**.
 
 ## Key Findings
 
-K-Nearest Neighbors achieved the highest reported prediction
-accuracy among the classification methods investigated.
+- KNN produced the highest reported test accuracy in both experiments.
+- The best reported accuracy was **56.88%**, obtained using KNN with
+  `k = 10` in the second experiment.
+- Logistic Regression and LDA produced similar classification performance.
+- Lag2 showed the strongest statistical evidence among the predictors in
+  the full logistic regression.
+- Prediction accuracy remained modest across all models, illustrating the
+  difficulty of predicting short-term stock-market direction from lagged
+  returns alone.
 
-The highest reported accuracy was approximately **56.9%**, obtained
-using KNN.
+## Conclusion
 
-Although KNN performed best among the models tested, the relatively
-modest accuracy illustrates the difficulty of predicting short-term
-stock-market direction using historical lagged returns alone.
+Among the models evaluated, KNN achieved the highest reported holdout
+accuracy.
 
----
+The results also demonstrate that selecting the number of neighbors and
+the predictor set can meaningfully affect KNN performance. However, the
+relatively modest accuracy suggests substantial uncertainty remains in
+predicting weekly market direction from these predictors.
+
+This project demonstrates the application and comparison of multiple
+classification techniques rather than establishing a trading strategy.
 
 ## Skills Demonstrated
 
-- Exploratory Data Analysis
-- Data Visualization
-- Statistical Modeling
-- Machine Learning
-- Binary Classification
-- Feature Engineering
+- R
 - Logistic Regression
 - Linear Discriminant Analysis
 - Quadratic Discriminant Analysis
 - K-Nearest Neighbors
-- Confusion Matrix Analysis
-- Model Evaluation
-- R Programming
+- Train/Test Splitting
+- Confusion Matrices
+- Model Comparison
+- Exploratory Data Analysis
 
----
+
 ## Source Code
 The complete R analysis is available here:
 https://github.com/Therancearizi/sp500-classification-analysis/blob/main/Rcodes
