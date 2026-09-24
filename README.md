@@ -152,4 +152,4 @@ The complete R analysis is available here:
 
 ## Full Report
 
-[View the complete project report]([report/SP500_Classification_Report.pdf](https://github.com/Therancearizi/sp500-classification-analysis/blob/main/Project%20Report.pdf))
+[[View the complete project report]([report/SP500_Classification_Report.pdf](https://github.com/Therancearizi/sp500-classification-analysis/blob/main/Project%20Report.pdf))](https://github.com/Therancearizi/sp500-classification-analysis/blob/main/Project%20Report.pdf)
