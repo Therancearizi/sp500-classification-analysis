@@ -143,12 +143,9 @@ stock-market direction using historical lagged returns alone.
 - R Programming
 
 ---
-
 ## Source Code
-
 The complete R analysis is available here:
-
-[[[View R source code](R/sp500_classification.R)](https://github.com/Therancearizi/sp500-classification-analysis/commit/9cb9a3eb1ad4dd7f2b2e769060aaba59057ca412)](https://github.com/Therancearizi/sp500-classification-analysis/commit/74e2ffbda5ec61fa18efaba2c0f69b096ebc08ce)
+https://github.com/Therancearizi/sp500-classification-analysis/blob/main/Rcodes
 
 ## Full Report
 
