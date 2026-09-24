@@ -54,8 +54,6 @@ The dataset contains **1,089 observations** from 1990–2010.
 
 ### Correlation and Pairwise Analysis
 
-![Correlation and Pairwise Analysis](images/correlation_pair_plot.png)
-
 The lagged returns displayed generally weak correlations with one
 another. One of the strongest relationships in the dataset was
 between `Year` and `Volume`, with a correlation of approximately
@@ -63,7 +61,7 @@ between `Year` and `Volume`, with a correlation of approximately
 
 ### Trading Volume Over Time
 
-![Year and Trading Volume](images/year_volume_scatter.png)
+
 
 Trading volume increased substantially over the period covered by
 the dataset. The LOESS trend highlights the nonlinear growth in
