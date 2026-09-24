@@ -50,6 +50,25 @@ The dataset contains **1,089 observations** from 1990–2010.
 
 ---
 
+
+
+## Data Source
+
+The analysis uses the **Weekly** stock-market dataset containing weekly
+percentage returns for the S&P 500 from **1990 through 2010**.
+
+The dataset contains **1,089 weekly observations** and is distributed with
+the `ISLR`/`ISLR2` materials associated with *An Introduction to Statistical
+Learning*.
+
+Dataset documentation:
+
+[Weekly Stock Market Data – ISLR Documentation](https://rdrr.io/cran/ISLR/man/Weekly.html)
+
+
+
+
+
 ## Exploratory Data Analysis
 
 ### Correlation and Pairwise Analysis
